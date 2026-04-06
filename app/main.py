@@ -50,6 +50,13 @@ def initialize_table_and_records(connection: sqlite3.Connection) -> None:
 	connection.commit()
 
 
+def update_numbers_records(connection: sqlite3.Connection) -> None:
+	cursor = connection.cursor()
+	cursor.execute("DELETE FROM numbers WHERE angka % 2 != 0")  # Delete ganjil numbers
+	# cursor.execute("DELETE FROM numbers WHERE angka % 2 = 0")  # Delete genap numbers
+	connection.commit()
+
+
 def display_records(connection: sqlite3.Connection) -> None:
 	cursor = connection.cursor()
 	cursor.execute("SELECT id, angka FROM numbers ORDER BY id")
@@ -88,6 +95,7 @@ def main() -> None:
 
 	with sqlite3.connect(DB_PATH) as connection:
 		initialize_table_and_records(connection)
+		update_numbers_records(connection)
 		display_records(connection)
 
 
