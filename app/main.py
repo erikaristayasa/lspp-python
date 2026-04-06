@@ -16,24 +16,36 @@ SEED_DATA = [
 	"sembilan",
 ]
 
+WORD_TO_NUMBER = {
+	"satu": 1,
+	"dua": 2,
+	"tiga": 3,
+	"empat": 4,
+	"lima": 5,
+	"enam": 6,
+	"tujuh": 7,
+	"delapan": 8,
+	"sembilan": 9,
+	"sepuluh": 10,
+}
+
 
 def initialize_table_and_records(connection: sqlite3.Connection) -> None:
 	cursor = connection.cursor()
+	cursor.execute("DROP TABLE IF EXISTS numbers")
 
 	cursor.execute(
 		"""
-		CREATE TABLE IF NOT EXISTS numbers (
+		CREATE TABLE numbers (
 			id INTEGER PRIMARY KEY AUTOINCREMENT,
-			angka TEXT NOT NULL
+			angka INTEGER NOT NULL
 		)
 		"""
 	)
 
-	cursor.execute("DELETE FROM numbers")
-	cursor.execute("DELETE FROM sqlite_sequence WHERE name = 'numbers'")
 	cursor.executemany(
 		"INSERT INTO numbers (angka) VALUES (?)",
-		[(value,) for value in SEED_DATA],
+		[(WORD_TO_NUMBER[word],) for word in SEED_DATA],
 	)
 	connection.commit()
 
