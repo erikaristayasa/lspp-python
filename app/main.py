@@ -54,20 +54,31 @@ def display_records(connection: sqlite3.Connection) -> None:
 	cursor = connection.cursor()
 	cursor.execute("SELECT id, angka FROM numbers ORDER BY id")
 	rows = cursor.fetchall()
+	sorted_rows = sorted(rows, key=lambda row: row[1])
 
-	headers = ["id", "angka"]
-	id_width = max(len(headers[0]), *(len(str(row[0])) for row in rows))
-	angka_width = max(len(headers[1]), *(len(str(row[1])) for row in rows))
+	headers = ["id", "angka", "label"]
+	id_width = max(len(headers[0]), *(len(str(row[0])) for row in sorted_rows))
+	angka_width = max(len(headers[1]), *(len(str(row[1])) for row in sorted_rows))
+	labels = ["genap" if row[1] % 2 == 0 else "ganjil" for row in sorted_rows]
+	label_width = max(len(headers[2]), *(len(label) for label in labels))
 
-	border = f"+-{'-' * id_width}-+-{'-' * angka_width}-+"
-	header_row = f"| {headers[0].ljust(id_width)} | {headers[1].ljust(angka_width)} |"
+	border = f"+-{'-' * id_width}-+-{'-' * angka_width}-+-{'-' * label_width}-+"
+	header_row = (
+		f"| {headers[0].ljust(id_width)} | "
+		f"{headers[1].ljust(angka_width)} | "
+		f"{headers[2].ljust(label_width)} |"
+	)
 
 	print(border)
 	print(header_row)
 	print(border)
 
-	for row in rows:
-		print(f"| {str(row[0]).ljust(id_width)} | {str(row[1]).ljust(angka_width)} |")
+	for row, label in zip(sorted_rows, labels):
+		print(
+			f"| {str(row[0]).ljust(id_width)} | "
+			f"{str(row[1]).ljust(angka_width)} | "
+			f"{label.ljust(label_width)} |"
+		)
 		print(border)
 
 
