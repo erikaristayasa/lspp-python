@@ -5,7 +5,7 @@ class Shape:
         pass
 
 class Square(Shape):
-    def __int__(self, side):
+    def __init__(self, side):
         super().__init__()
         self.side = side
 
