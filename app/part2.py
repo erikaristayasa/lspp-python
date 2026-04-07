@@ -1,5 +1,3 @@
-import math
-
 from models.shape import Circle, Rectangle, Square
 
 
@@ -38,24 +36,23 @@ def select_shape() -> str:
 def calculate_shape_result(shape_name: str) -> tuple[float, float]:
 	if shape_name == "square":
 		side = get_positive_number("Masukkan panjang sisi: ")
-		square = Square()
-		square.side = side
-		area = square.side * square.side
-		perimeter = 4 * square.side
+		square = Square(side)
+		area = square.calculateArea()
+		perimeter = square.calculatePerimeter()
 		return area, perimeter
 
 	if shape_name == "rectangle":
 		length = get_positive_number("Masukkan panjang: ")
 		width = get_positive_number("Masukkan lebar: ")
 		rectangle = Rectangle(length, width)
-		area = rectangle.length * rectangle.width
-		perimeter = 2 * (rectangle.length + rectangle.width)
+		area = rectangle.calculateArea()
+		perimeter = rectangle.calculatePerimeter()
 		return area, perimeter
 
 	radius = get_positive_number("Masukkan radius: ")
 	circle = Circle(radius)
-	area = math.pi * circle.radius * circle.radius
-	perimeter = 2 * math.pi * circle.radius
+	area = circle.calculateArea()
+	perimeter = circle.calculatePerimeter()
 	return area, perimeter
 
 
