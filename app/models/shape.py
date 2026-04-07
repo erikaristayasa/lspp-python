@@ -12,7 +12,7 @@ class Shape(ABC):
         pass
 
 class Square(Shape):
-    def __init__(self, side):
+    def __init__(self, side:int):
         super().__init__()
         self.side = side
 
@@ -23,7 +23,7 @@ class Square(Shape):
         return 4 * self.side
 
 class Rectangle(Shape):
-    def __init__(self, length, width):
+    def __init__(self, length:int, width:int):
         super().__init__()
         self.length = length
         self.width = width
@@ -35,7 +35,7 @@ class Rectangle(Shape):
         return 2 * (self.length + self.width)
 
 class Circle(Shape):
-    def __init__(self, radius):
+    def __init__(self, radius:int):
         super().__init__()
         self.radius = radius
 
